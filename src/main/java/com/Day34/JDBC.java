@@ -1,7 +1,6 @@
 package com.Day34;
 
 import java.sql.Connection;
-
 /**
  * Main class where we check the connection and execute the method.
  */
@@ -18,7 +17,7 @@ public class JDBC {
 			System.out.println(" Connection failed");
 		
 		StatementDB statement = new StatementDB(connection);
-		statement.update();
+		statement.preparedUpdate();
 		statement.read();
 	}
 }

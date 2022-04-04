@@ -1,11 +1,11 @@
 package com.Day34;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
-
 /**
  * In this class we are writing the statement 
  */
@@ -13,6 +13,7 @@ public class StatementDB {
 
 	final static String query = "SELECT * from employee_payroll";
 	final static String UPDATE_DB = "UPDATE employee_payroll SET Salary = 3000000 WHERE name = 'Terissa'";
+	final static String preparedQuery = "UPDATE employee_payroll SET Salary = ? WHERE name = ?";
 	Connection connection;
 	ArrayList<EmployeePayroll> db;
 
@@ -51,6 +52,10 @@ public class StatementDB {
 
 	}
 	
+	/**
+	 * Method to update the database with normal statement 
+	 * @return - true if updated
+	 */
 	public boolean update() {
 
 		ArrayList<EmployeePayroll> db = EmployeeDB.getEmployeeDB();
@@ -63,6 +68,35 @@ public class StatementDB {
 			for (EmployeePayroll employeePayroll : db) {
 				if (employeePayroll.getName().equals("Terissa")) {
 					employeePayroll.setSalary(3000000);
+					return true;
+				}
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return false;
+
+	}
+	
+	/**
+	 * Method to update the database with prepared statement.
+	 * @return - true if updated
+	 */
+	public boolean preparedUpdate() {
+
+		ArrayList<EmployeePayroll> db = EmployeeDB.getEmployeeDB();
+		PreparedStatement pStatement = null;
+
+		try {
+			pStatement = connection.prepareStatement(preparedQuery);
+			pStatement.setInt(1, 50000);
+			pStatement.setString(2, "Terissa");
+			pStatement.execute();
+
+			for (EmployeePayroll employeePayroll : db) {
+				if (employeePayroll.getName().equals("Terissa")) {
+					employeePayroll.setSalary(50000);
 					return true;
 				}
 			}
