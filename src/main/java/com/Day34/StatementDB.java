@@ -12,6 +12,7 @@ import java.util.ArrayList;
 public class StatementDB {
 
 	final static String query = "SELECT * from employee_payroll";
+	final static String UPDATE_DB = "UPDATE employee_payroll SET Salary = 3000000 WHERE name = 'Terissa'";
 	Connection connection;
 	ArrayList<EmployeePayroll> db;
 
@@ -47,6 +48,29 @@ public class StatementDB {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+
+	}
+	
+	public boolean update() {
+
+		ArrayList<EmployeePayroll> db = EmployeeDB.getEmployeeDB();
+		Statement statement = null;
+
+		try {
+			statement = connection.createStatement();
+			statement.execute(UPDATE_DB);
+
+			for (EmployeePayroll employeePayroll : db) {
+				if (employeePayroll.getName().equals("Terissa")) {
+					employeePayroll.setSalary(3000000);
+					return true;
+				}
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return false;
 
 	}
 }
